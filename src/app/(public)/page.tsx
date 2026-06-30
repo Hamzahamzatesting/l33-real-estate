@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { ArrowRight, Shield, Award, TrendingUp, HeadphonesIcon, Building2, Home, TreePine, Briefcase, Map, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import PropertyCard from '@/components/properties/PropertyCard'
-import SearchBar from '@/components/properties/SearchBar'
 import type { Property } from '@/lib/types'
 
 async function getFeaturedProperties(): Promise<Property[]> {
@@ -16,343 +16,253 @@ async function getFeaturedProperties(): Promise<Property[]> {
   return (data as Property[]) || []
 }
 
-const stats = [
-  { value: '500+', label: 'Premium Listings' },
-  { value: '12+', label: 'Cities Covered' },
-  { value: '98%', label: 'Client Satisfaction' },
-  { value: '5+', label: 'Years of Excellence' },
-]
-
-const features = [
-  {
-    icon: Award,
-    number: '01',
-    title: 'Curated Listings',
-    description: 'Every property is hand-selected and verified for quality, authenticity, and investment value.',
-  },
-  {
-    icon: Shield,
-    number: '02',
-    title: 'Trusted & Transparent',
-    description: 'Full legal compliance, verified ownership, and zero hidden fees — your trust is our foundation.',
-  },
-  {
-    icon: TrendingUp,
-    number: '03',
-    title: 'Smart Investment',
-    description: 'Data-driven insights and market expertise to help you maximize your real estate returns.',
-  },
-  {
-    icon: HeadphonesIcon,
-    number: '04',
-    title: 'White-Glove Service',
-    description: 'Dedicated agents available from search to signature, making your journey seamless.',
-  },
-]
-
-const categories = [
-  { label: 'Apartments', type: 'apartment', icon: Building2, count: 'Urban Living' },
-  { label: 'Villas', type: 'villa', icon: Home, count: 'Luxury Estates' },
-  { label: 'Houses', type: 'house', icon: Home, count: 'Family Homes' },
-  { label: 'Offices', type: 'office', icon: Briefcase, count: 'Prime Locations' },
-  { label: 'Land', type: 'land', icon: TreePine, count: 'Build Your Vision' },
-  { label: 'Commercial', type: 'commercial', icon: Map, count: 'Business Spaces' },
-]
-
 export default async function HomePage() {
   const featuredProperties = await getFeaturedProperties()
 
   return (
     <>
-      {/* ── HERO ── */}
-      <section className="relative min-h-screen flex flex-col justify-center bg-brand-black overflow-hidden">
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
+      {/* ─── HERO ─── */}
+      <section className="relative h-screen min-h-[700px] bg-[#0a0a0a] overflow-hidden flex">
 
-        {/* Gold glow orbs */}
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full opacity-10 blur-[120px]" style={{ background: '#c9a84c' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full opacity-8 blur-[100px]" style={{ background: '#c9a84c' }} />
+        {/* Right: Architectural photo */}
+        <div className="absolute right-0 top-0 w-full lg:w-[52%] h-full">
+          <Image
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1800"
+            alt="Luxury property"
+            fill
+            priority
+            className="object-cover opacity-60"
+            sizes="52vw"
+          />
+          {/* Fade from black on the left */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
+          {/* Bottom fade */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent" />
+        </div>
 
-        {/* Vertical gold line accent */}
-        <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-brand-gold/40 to-transparent hidden lg:block" />
+        {/* Left: Text content */}
+        <div className="relative z-10 flex flex-col justify-center px-8 sm:px-12 lg:px-20 w-full lg:w-[58%] pt-24">
+          <div className="animate-fade-up">
+            <div className="flex items-center gap-3 mb-10">
+              <span className="block w-8 h-px bg-[#c9a84c]" />
+              <span className="text-[#c9a84c]/70 text-[11px] tracking-[0.45em] uppercase font-medium">
+                Est. 2019 · Morocco
+              </span>
+            </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-16">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Text */}
-            <div>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="h-px w-12 bg-brand-gold" />
-                <span className="text-brand-gold text-xs tracking-[0.5em] uppercase font-medium">L33 Real Estate</span>
+            <h1 className="font-heading leading-[0.92] tracking-tight mb-10">
+              <span className="block text-white/80 text-[clamp(3.5rem,7vw,6.5rem)] font-light">
+                Find Your
+              </span>
+              <span className="block text-[#c9a84c] italic text-[clamp(3.5rem,7vw,6.5rem)] font-bold">
+                Perfect
+              </span>
+              <span
+                className="block text-[clamp(3.5rem,7vw,6.5rem)] font-bold"
+                style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.3)', color: 'transparent' }}
+              >
+                Property
+              </span>
+            </h1>
+
+            <p className="text-white/35 text-base leading-relaxed max-w-sm mb-10 font-light">
+              Morocco's most curated real estate platform — connecting discerning clients with extraordinary homes.
+            </p>
+
+            <div className="flex items-center gap-4">
+              <Link
+                href="/properties"
+                className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-xs tracking-[0.25em] uppercase font-semibold px-8 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
+              >
+                Explore Listings
+                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/contact"
+                className="text-white/40 text-xs tracking-[0.25em] uppercase font-medium hover:text-white/80 transition-colors duration-300 border-b border-white/10 hover:border-white/30 pb-0.5"
+              >
+                Talk to an Agent
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom stats bar */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-white/8">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/8">
+            {[
+              { n: '500+', label: 'Premium Listings' },
+              { n: '12+', label: 'Cities' },
+              { n: '98%', label: 'Client Satisfaction' },
+              { n: '5+', label: 'Years of Excellence' },
+            ].map((s) => (
+              <div key={s.label} className="px-8 py-5 backdrop-blur-sm bg-white/[0.02]">
+                <div className="font-heading text-2xl font-bold text-white">{s.n}</div>
+                <div className="text-white/25 text-[10px] tracking-[0.2em] uppercase mt-1">{s.label}</div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <h1 className="font-heading text-5xl md:text-6xl xl:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-8">
-                Where Luxury
-                <br />
-                <span className="text-brand-gold italic">Meets</span>
-                <br />
-                Real Estate
-              </h1>
+      {/* ─── FEATURED PROPERTIES ─── */}
+      <section className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
 
-              <p className="text-white/50 text-lg leading-relaxed mb-10 max-w-md font-light">
-                Morocco's most exclusive property platform — connecting discerning buyers with extraordinary homes.
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div>
+              <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">
+                Handpicked for You
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/properties"
-                  className="inline-flex items-center justify-center gap-2 bg-brand-gold text-white px-8 py-4 text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold-dark transition-all duration-300 group"
-                >
-                  Explore Properties
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 border border-white/20 text-white px-8 py-4 text-sm font-semibold tracking-widest uppercase hover:border-brand-gold hover:text-brand-gold transition-all duration-300"
-                >
-                  Talk to an Agent
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: Stats card */}
-            <div className="hidden lg:block">
-              <div className="relative">
-                {/* Main card */}
-                <div className="border border-white/10 bg-white/5 backdrop-blur-sm p-10">
-                  <p className="text-brand-gold text-xs tracking-[0.4em] uppercase mb-6">Our Numbers</p>
-                  <div className="grid grid-cols-2 gap-8">
-                    {stats.map((stat) => (
-                      <div key={stat.label} className="border-l-2 border-brand-gold pl-5">
-                        <div className="font-heading text-4xl font-bold text-white mb-1">{stat.value}</div>
-                        <div className="text-white/40 text-xs tracking-widest uppercase">{stat.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Decorative corner */}
-                <div className="absolute -top-3 -right-3 w-24 h-24 border-t-2 border-r-2 border-brand-gold/40" />
-                <div className="absolute -bottom-3 -left-3 w-24 h-24 border-b-2 border-l-2 border-brand-gold/40" />
-              </div>
-            </div>
-          </div>
-
-          {/* Search bar */}
-          <div className="mt-16 border-t border-white/10 pt-12">
-            <p className="text-white/30 text-xs tracking-[0.4em] uppercase mb-6">Quick Search</p>
-            <SearchBar />
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <div className="w-px h-12 bg-white animate-pulse" />
-          <span className="text-white text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-        </div>
-      </section>
-
-      {/* ── STATS BAR (mobile) ── */}
-      <section className="lg:hidden bg-brand-black border-t border-white/10 py-10">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 gap-6">
-          {stats.map((stat) => (
-            <div key={stat.label} className="border-l-2 border-brand-gold pl-4">
-              <div className="font-heading text-3xl font-bold text-white">{stat.value}</div>
-              <div className="text-white/40 text-xs tracking-widest uppercase mt-1">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── FEATURED PROPERTIES ── */}
-      <section className="py-28 bg-[#f7f4ef]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-brand-gold" />
-                <span className="text-brand-gold text-xs tracking-[0.4em] uppercase">Handpicked for You</span>
-              </div>
-              <h2 className="font-heading text-4xl md:text-5xl font-bold text-brand-black tracking-tight leading-tight">
+              <h2 className="font-heading text-5xl md:text-6xl font-bold text-[#0a0a0a] leading-tight tracking-tight">
                 Featured
                 <br />
-                <span className="text-brand-gold italic">Properties</span>
+                <em className="not-italic text-[#0a0a0a]/30">Properties</em>
               </h2>
             </div>
             <Link
               href="/properties"
-              className="inline-flex items-center gap-2 text-brand-black text-sm tracking-widest uppercase font-semibold border-b border-brand-black pb-1 hover:text-brand-gold hover:border-brand-gold transition-all duration-300 group self-start md:self-auto"
+              className="inline-flex items-center gap-2 text-[#0a0a0a] text-xs tracking-[0.3em] uppercase font-semibold hover:text-[#c9a84c] transition-colors duration-300 group mt-8 md:mt-0 self-start"
             >
-              View All
-              <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              View All Properties
+              <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
 
+          {/* Grid */}
           {featuredProperties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
               {featuredProperties.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-24 border border-dashed border-stone-300">
-              <p className="text-brand-gray text-sm tracking-wider uppercase">No listings yet — check back soon</p>
-              <Link
-                href="/contact"
-                className="mt-6 inline-flex items-center gap-2 border border-brand-gold text-brand-gold px-8 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
-              >
-                Contact Us
-              </Link>
+            <div className="py-24 text-center border border-dashed border-stone-200">
+              <p className="text-stone-400 text-sm tracking-wider">No listings yet — check back soon.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* ── WHY L33 ── */}
-      <section className="py-28 bg-brand-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-16 items-start">
-            {/* Left label */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-px w-8 bg-brand-gold" />
-                <span className="text-brand-gold text-xs tracking-[0.4em] uppercase">Why Choose Us</span>
-              </div>
-              <h2 className="font-heading text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-8">
-                The L33
+      {/* ─── DIVIDER STATEMENT ─── */}
+      <section className="bg-[#0a0a0a] py-24 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="font-heading text-4xl md:text-5xl font-light text-white leading-snug tracking-tight">
+                We don't just list
                 <br />
-                <span className="text-brand-gold italic">Difference</span>
+                properties — we
+                <br />
+                <em className="text-[#c9a84c]">deliver experiences.</em>
               </h2>
-              <p className="text-white/40 text-sm leading-relaxed max-w-xs">
-                We don't just sell properties — we deliver a complete real estate experience built on trust, expertise, and results.
-              </p>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 mt-8 text-brand-gold text-sm tracking-widest uppercase font-semibold border-b border-brand-gold pb-1 hover:opacity-70 transition-opacity group"
-              >
-                About Us
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
             </div>
-
-            {/* Right: feature cards */}
-            <div className="lg:col-span-3 grid sm:grid-cols-2 gap-px bg-white/5">
-              {features.map((feature) => {
-                const Icon = feature.icon
-                return (
-                  <div
-                    key={feature.title}
-                    className="bg-brand-black p-8 group hover:bg-white/5 transition-all duration-300 border border-white/5 hover:border-brand-gold/30"
-                  >
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="p-3 border border-brand-gold/30 text-brand-gold group-hover:bg-brand-gold group-hover:text-white group-hover:border-brand-gold transition-all duration-300">
-                        <Icon size={20} />
-                      </div>
-                      <span className="font-heading text-5xl font-bold text-white/5 group-hover:text-white/10 transition-colors">
-                        {feature.number}
-                      </span>
-                    </div>
-                    <h3 className="font-heading text-lg font-semibold text-white mb-3 tracking-wide group-hover:text-brand-gold transition-colors">
-                      {feature.title}
+            <div className="space-y-10">
+              {[
+                { n: '01', title: 'Curated Listings', body: 'Every property is hand-selected and verified for quality, authenticity, and investment potential.' },
+                { n: '02', title: 'Trusted Experts', body: 'Our agents bring years of local market expertise to help you make the right decision.' },
+                { n: '03', title: 'Seamless Process', body: 'From your first search to signing, we handle every detail so you don\'t have to.' },
+              ].map((item) => (
+                <div key={item.n} className="flex gap-6 group">
+                  <span className="font-heading text-3xl font-bold text-white/8 group-hover:text-[#c9a84c]/20 transition-colors duration-500 leading-none mt-1 flex-shrink-0 w-12">
+                    {item.n}
+                  </span>
+                  <div className="border-t border-white/10 pt-5 group-hover:border-[#c9a84c]/20 transition-colors duration-500">
+                    <h3 className="text-white text-sm font-semibold tracking-widest uppercase mb-2">
+                      {item.title}
                     </h3>
-                    <p className="text-white/40 text-sm leading-relaxed group-hover:text-white/60 transition-colors">
-                      {feature.description}
-                    </p>
+                    <p className="text-white/35 text-sm leading-relaxed font-light">{item.body}</p>
                   </div>
-                )
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CATEGORIES ── */}
-      <section className="py-28 bg-[#f7f4ef]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-8 bg-brand-gold" />
-              <span className="text-brand-gold text-xs tracking-[0.4em] uppercase">Browse by Type</span>
-              <div className="h-px w-8 bg-brand-gold" />
-            </div>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-brand-black tracking-tight">
-              Find Your <span className="text-brand-gold italic">Category</span>
+      {/* ─── PROPERTY CATEGORIES ─── */}
+      <section className="py-28 bg-[#f5f2ec]">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
+          <div className="mb-16">
+            <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">Browse by Type</p>
+            <h2 className="font-heading text-5xl font-bold text-[#0a0a0a] tracking-tight">
+              What are you
+              <br />
+              <em className="not-italic text-[#0a0a0a]/25">looking for?</em>
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map((category) => {
-              const Icon = category.icon
-              return (
-                <Link
-                  key={category.type}
-                  href={`/properties?property_type=${category.type}`}
-                  className="group relative overflow-hidden bg-white border border-stone-200 p-6 hover:border-brand-gold hover:shadow-xl transition-all duration-400 flex flex-col items-center text-center"
-                >
-                  <div className="absolute inset-0 bg-brand-black translate-y-full group-hover:translate-y-0 transition-transform duration-400" />
-                  <div className="relative z-10">
-                    <div className="inline-flex items-center justify-center w-12 h-12 border border-stone-200 group-hover:border-brand-gold/40 mb-4 transition-colors duration-300">
-                      <Icon size={22} className="text-brand-gray group-hover:text-brand-gold transition-colors duration-300" />
-                    </div>
-                    <p className="font-heading text-sm font-semibold text-brand-black group-hover:text-white transition-colors duration-300 tracking-wide">
-                      {category.label}
-                    </p>
-                    <p className="text-[10px] text-brand-gray group-hover:text-white/50 transition-colors duration-300 tracking-wider uppercase mt-1">
-                      {category.count}
-                    </p>
-                  </div>
-                </Link>
-              )
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {[
+              { label: 'Apartments', type: 'apartment' },
+              { label: 'Villas', type: 'villa' },
+              { label: 'Houses', type: 'house' },
+              { label: 'Offices', type: 'office' },
+              { label: 'Land', type: 'land' },
+              { label: 'Commercial', type: 'commercial' },
+            ].map((cat) => (
+              <Link
+                key={cat.type}
+                href={`/properties?property_type=${cat.type}`}
+                className="group relative bg-white border border-stone-200/80 hover:border-[#c9a84c] hover:bg-[#0a0a0a] transition-all duration-500 p-8 flex flex-col justify-between min-h-[140px]"
+              >
+                <span className="text-[10px] tracking-[0.3em] uppercase text-stone-300 group-hover:text-[#c9a84c]/60 transition-colors duration-500 font-medium">
+                  L33
+                </span>
+                <div>
+                  <h3 className="font-heading text-xl font-semibold text-[#0a0a0a] group-hover:text-white transition-colors duration-500 leading-tight">
+                    {cat.label}
+                  </h3>
+                  <ArrowUpRight
+                    size={14}
+                    className="text-stone-300 group-hover:text-[#c9a84c] mt-2 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section className="relative py-32 bg-brand-black overflow-hidden">
-        {/* Background pattern */}
+      {/* ─── CTA ─── */}
+      <section className="relative py-36 bg-[#0a0a0a] overflow-hidden">
+        {/* Subtle grain texture overlay */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'1\'/%3E%3C/svg%3E")',
+            backgroundSize: '200px',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-black via-transparent to-brand-black" />
-        {/* Gold accent line */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-gold" />
+        {/* Gold left accent */}
+        <div className="absolute left-0 top-16 bottom-16 w-[2px] bg-gradient-to-b from-transparent via-[#c9a84c]/60 to-transparent" />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-brand-gold" />
-            <span className="text-brand-gold text-xs tracking-[0.5em] uppercase">Get Started</span>
-            <div className="h-px w-12 bg-brand-gold" />
-          </div>
-          <h2 className="font-heading text-4xl md:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
-            Your Dream Property
+        <div className="relative z-10 max-w-3xl mx-auto px-8 text-center">
+          <p className="text-[#c9a84c]/60 text-[10px] tracking-[0.5em] uppercase mb-8 font-medium">
+            Get Started
+          </p>
+          <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-8">
+            Your dream home
             <br />
-            <span className="text-brand-gold italic">Awaits You</span>
+            <em className="text-[#c9a84c]">is one call away.</em>
           </h2>
-          <p className="text-white/40 text-lg mb-12 font-light max-w-xl mx-auto leading-relaxed">
-            Our expert agents are ready to guide you to the perfect home or investment — on your terms, on your timeline.
+          <p className="text-white/25 text-base font-light leading-relaxed mb-12 max-w-md mx-auto">
+            Let our agents guide you to the perfect property — on your terms, on your timeline.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-brand-gold text-white px-10 py-4 text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold-dark transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
             >
               Contact Our Team
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <a
               href="https://wa.me/212600000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 border border-white/20 text-white px-10 py-4 text-sm font-semibold tracking-widest uppercase hover:border-brand-gold hover:text-brand-gold transition-all duration-300"
+              className="text-white/35 text-xs tracking-[0.25em] uppercase font-medium hover:text-white/70 transition-colors duration-300 border-b border-white/10 hover:border-white/25 pb-0.5"
             >
               WhatsApp Us
             </a>
