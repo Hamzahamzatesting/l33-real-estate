@@ -155,38 +155,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team placeholder */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-brand-gold text-xs tracking-[0.4em] uppercase mb-4">
-            Meet the Team
-          </p>
-          <h2 className="section-heading gold-underline inline-block mb-6">
-            Expert Agents
-          </h2>
-          <p className="text-brand-gray max-w-xl mx-auto mb-12">
-            Our team of dedicated real estate professionals brings years of experience and
-            local expertise to help you find the perfect property.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {['Senior Agent', 'Property Consultant', 'Investment Advisor'].map((role, i) => (
-              <div key={role} className="group">
-                <div className="w-32 h-32 bg-brand-beige border border-stone-200 rounded-full mx-auto mb-4 flex items-center justify-center group-hover:border-brand-gold transition-colors duration-300">
-                  <span className="font-heading text-3xl font-bold text-brand-gold">
-                    {String.fromCharCode(65 + i)}
-                  </span>
-                </div>
-                <h3 className="font-heading text-lg font-semibold text-brand-black mb-1">
-                  L33 Team Member
-                </h3>
-                <p className="text-xs text-brand-gray uppercase tracking-widest">{role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-20 bg-brand-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
