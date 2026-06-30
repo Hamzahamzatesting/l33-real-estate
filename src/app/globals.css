@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-black: #0a0a0a;
+  --color-white: #fafafa;
+  --color-beige: #f5f0e8;
+  --color-gold: #c9a84c;
+  --color-gold-dark: #a8892e;
+  --color-gray: #6b7280;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* Gold underline utility */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+/* Heading font utility */
+.font-heading {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-gold text-white font-semibold px-6 py-3 rounded-none hover:bg-brand-gold-dark transition-all duration-300 tracking-wider uppercase text-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-brand-black text-white font-semibold px-6 py-3 rounded-none hover:bg-gray-800 transition-all duration-300 tracking-wider uppercase text-sm;
+  }
+
+  .btn-outline {
+    @apply border border-brand-gold text-brand-gold font-semibold px-6 py-3 rounded-none hover:bg-brand-gold hover:text-white transition-all duration-300 tracking-wider uppercase text-sm;
+  }
+
+  .section-heading {
+    @apply font-heading text-3xl md:text-4xl font-bold text-brand-black tracking-wider;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+}
