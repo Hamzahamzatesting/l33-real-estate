@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Plus, ArrowRight } from 'lucide-react'
+import { Plus, ArrowUpRight, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import AdminStats from '@/components/admin/AdminStats'
 import PropertyTable from '@/components/admin/PropertyTable'
@@ -33,23 +33,24 @@ async function getDashboardData() {
 export default async function AdminDashboard() {
   const { stats, recentProperties } = await getDashboardData()
 
+  const now = new Date()
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-6xl">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-heading text-3xl font-bold text-brand-black tracking-wide">
+          <p className="text-stone-400 text-xs tracking-[0.2em] uppercase mb-2">{dateStr}</p>
+          <h1 className="font-heading text-3xl font-bold text-[#0a0a0a] tracking-tight">
             Dashboard
           </h1>
-          <p className="text-sm text-brand-gray mt-1">
-            Welcome back to L33 Real Estate Admin
-          </p>
         </div>
         <Link
           href="/admin/properties/new"
-          className="flex items-center gap-2 bg-brand-gold hover:bg-brand-gold-dark text-white px-5 py-2.5 text-sm font-semibold tracking-widest uppercase transition-all duration-300"
+          className="flex items-center gap-2 bg-[#0a0a0a] hover:bg-[#c9a84c] text-white text-xs tracking-[0.2em] uppercase font-semibold px-5 py-3 transition-all duration-300 group"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Add Property
         </Link>
       </div>
@@ -57,68 +58,65 @@ export default async function AdminDashboard() {
       {/* Stats */}
       <AdminStats stats={stats} />
 
-      {/* Recent Properties */}
-      <div className="bg-white border border-stone-200">
-        <div className="flex items-center justify-between p-5 border-b border-stone-100">
-          <h2 className="font-heading text-lg font-semibold text-brand-black tracking-wide">
-            Recent Properties
-          </h2>
+      {/* Recent + Quick actions */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Recent Properties */}
+        <div className="lg:col-span-2 bg-white border border-stone-200">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100">
+            <h2 className="text-sm font-semibold text-[#0a0a0a] tracking-wide">Recent Properties</h2>
+            <Link
+              href="/admin/properties"
+              className="text-[10px] tracking-[0.2em] uppercase text-stone-400 hover:text-[#c9a84c] transition-colors flex items-center gap-1 group"
+            >
+              View all
+              <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+          <PropertyTable properties={recentProperties} />
+        </div>
+
+        {/* Quick actions */}
+        <div className="space-y-3">
+          <p className="text-[10px] tracking-[0.25em] uppercase text-stone-400 font-medium">Quick Actions</p>
+
+          <Link
+            href="/admin/properties/new"
+            className="flex items-center justify-between p-5 bg-white border border-stone-200 hover:border-[#c9a84c] transition-all duration-200 group"
+          >
+            <div>
+              <p className="text-sm font-semibold text-[#0a0a0a] mb-0.5">Add Property</p>
+              <p className="text-xs text-stone-400">Create a new listing</p>
+            </div>
+            <ArrowUpRight size={16} className="text-stone-300 group-hover:text-[#c9a84c] transition-colors" />
+          </Link>
+
           <Link
             href="/admin/properties"
-            className="flex items-center gap-1.5 text-sm text-brand-gold hover:text-brand-gold-dark transition-colors duration-200"
+            className="flex items-center justify-between p-5 bg-white border border-stone-200 hover:border-[#c9a84c] transition-all duration-200 group"
           >
-            View All
-            <ArrowRight size={14} />
+            <div>
+              <p className="text-sm font-semibold text-[#0a0a0a] mb-0.5">
+                {stats.draft} Draft{stats.draft !== 1 ? 's' : ''}
+              </p>
+              <p className="text-xs text-stone-400">Ready to publish</p>
+            </div>
+            <span className="w-2 h-2 rounded-full bg-amber-400" />
+          </Link>
+
+          <Link
+            href="/"
+            target="_blank"
+            className="flex items-center justify-between p-5 bg-white border border-stone-200 hover:border-[#c9a84c] transition-all duration-200 group"
+          >
+            <div>
+              <p className="text-sm font-semibold text-[#0a0a0a] mb-0.5">
+                {stats.published} Live
+              </p>
+              <p className="text-xs text-stone-400">View public website</p>
+            </div>
+            <ArrowUpRight size={16} className="text-stone-300 group-hover:text-[#c9a84c] transition-colors" />
           </Link>
         </div>
-        <PropertyTable properties={recentProperties} />
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Link
-          href="/admin/properties/new"
-          className="bg-white border border-stone-200 p-6 hover:border-brand-gold transition-all duration-200 group"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-brand-gold/10 flex items-center justify-center">
-              <Plus size={20} className="text-brand-gold" />
-            </div>
-            <div>
-              <p className="font-medium text-brand-black text-sm">Add Property</p>
-              <p className="text-xs text-brand-gray mt-0.5">Create a new listing</p>
-            </div>
-          </div>
-        </Link>
-        <Link
-          href="/admin/properties?status=draft"
-          className="bg-white border border-stone-200 p-6 hover:border-brand-gold transition-all duration-200 group"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-yellow-50 flex items-center justify-center">
-              <span className="text-yellow-600 text-xl font-bold">{stats.draft}</span>
-            </div>
-            <div>
-              <p className="font-medium text-brand-black text-sm">Draft Properties</p>
-              <p className="text-xs text-brand-gray mt-0.5">Review and publish</p>
-            </div>
-          </div>
-        </Link>
-        <Link
-          href="/properties"
-          target="_blank"
-          className="bg-white border border-stone-200 p-6 hover:border-brand-gold transition-all duration-200 group"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-50 flex items-center justify-center">
-              <span className="text-green-600 text-xl font-bold">{stats.published}</span>
-            </div>
-            <div>
-              <p className="font-medium text-brand-black text-sm">Live Listings</p>
-              <p className="text-xs text-brand-gray mt-0.5">View on website ↗</p>
-            </div>
-          </div>
-        </Link>
       </div>
     </div>
   )

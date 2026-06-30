@@ -1,4 +1,3 @@
-import { Building2, CheckCircle, Clock, Tag, Home } from 'lucide-react'
 import type { DashboardStats } from '@/lib/types'
 
 interface AdminStatsProps {
@@ -7,64 +6,31 @@ interface AdminStatsProps {
 
 export default function AdminStats({ stats }: AdminStatsProps) {
   const cards = [
-    {
-      label: 'Total Properties',
-      value: stats.total,
-      icon: Building2,
-      color: 'text-brand-black',
-      bg: 'bg-stone-50',
-    },
-    {
-      label: 'Published',
-      value: stats.published,
-      icon: CheckCircle,
-      color: 'text-green-600',
-      bg: 'bg-green-50',
-    },
-    {
-      label: 'Draft',
-      value: stats.draft,
-      icon: Clock,
-      color: 'text-yellow-600',
-      bg: 'bg-yellow-50',
-    },
-    {
-      label: 'Sold',
-      value: stats.sold,
-      icon: Tag,
-      color: 'text-red-600',
-      bg: 'bg-red-50',
-    },
-    {
-      label: 'Rented',
-      value: stats.rented,
-      icon: Home,
-      color: 'text-blue-600',
-      bg: 'bg-blue-50',
-    },
+    { label: 'Total', value: stats.total, accent: false },
+    { label: 'Published', value: stats.published, accent: true, dot: 'bg-emerald-400' },
+    { label: 'Draft', value: stats.draft, accent: false, dot: 'bg-amber-400' },
+    { label: 'Sold', value: stats.sold, accent: false, dot: 'bg-rose-400' },
+    { label: 'Rented', value: stats.rented, accent: false, dot: 'bg-sky-400' },
   ]
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      {cards.map((card) => {
-        const Icon = card.icon
-        return (
-          <div
-            key={card.label}
-            className="bg-white border border-stone-200 p-5 hover:shadow-md transition-shadow duration-200"
-          >
-            <div className={`inline-flex items-center justify-center w-10 h-10 ${card.bg} mb-3`}>
-              <Icon size={20} className={card.color} />
-            </div>
-            <div className="font-heading text-3xl font-bold text-brand-black mb-1">
-              {card.value}
-            </div>
-            <div className="text-xs text-brand-gray uppercase tracking-widest">
-              {card.label}
-            </div>
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      {cards.map((card) => (
+        <div
+          key={card.label}
+          className={`p-5 border ${card.accent ? 'bg-[#c9a84c] border-[#c9a84c]' : 'bg-white border-stone-200'}`}
+        >
+          {card.dot && !card.accent && (
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${card.dot} mb-3`} />
+          )}
+          <div className={`font-heading text-4xl font-bold mb-1 ${card.accent ? 'text-white' : 'text-[#0a0a0a]'}`}>
+            {card.value}
           </div>
-        )
-      })}
+          <div className={`text-[10px] tracking-[0.2em] uppercase font-medium ${card.accent ? 'text-white/70' : 'text-stone-400'}`}>
+            {card.label}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

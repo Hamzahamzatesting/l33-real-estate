@@ -22,81 +22,94 @@ export default async function HomePage() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="relative h-screen min-h-[700px] bg-[#0a0a0a] overflow-hidden flex">
+      <section className="relative h-screen min-h-[760px] bg-[#0a0a0a] overflow-hidden">
 
-        {/* Right: Architectural photo */}
-        <div className="absolute right-0 top-0 w-full lg:w-[52%] h-full">
-          <Image
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1800"
-            alt="Luxury property"
-            fill
-            priority
-            className="object-cover opacity-60"
-            sizes="52vw"
-          />
-          {/* Fade from black on the left */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
-          {/* Bottom fade */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent" />
-        </div>
+        {/* Full-bleed background photo */}
+        <Image
+          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=85&w=2400"
+          alt="Luxury property"
+          fill
+          priority
+          className="object-cover object-center scale-[1.02]"
+          sizes="100vw"
+        />
 
-        {/* Left: Text content */}
-        <div className="relative z-10 flex flex-col justify-center px-8 sm:px-12 lg:px-20 w-full lg:w-[58%] pt-24">
-          <div className="animate-fade-up">
-            <div className="flex items-center gap-3 mb-10">
-              <span className="block w-8 h-px bg-[#c9a84c]" />
-              <span className="text-[#c9a84c]/70 text-[11px] tracking-[0.45em] uppercase font-medium">
-                Est. 2019 · Morocco
-              </span>
-            </div>
+        {/* Layered overlays for depth */}
+        <div className="absolute inset-0 bg-[#0a0a0a]/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-[#0a0a0a]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
 
-            <h1 className="font-heading leading-[0.92] tracking-tight mb-10">
-              <span className="block text-white/80 text-[clamp(3.5rem,7vw,6.5rem)] font-light">
-                Find Your
-              </span>
-              <span className="block text-[#c9a84c] italic text-[clamp(3.5rem,7vw,6.5rem)] font-bold">
-                Perfect
-              </span>
-              <span
-                className="block text-[clamp(3.5rem,7vw,6.5rem)] font-bold"
-                style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.3)', color: 'transparent' }}
-              >
-                Property
-              </span>
-            </h1>
+        {/* Thin gold vertical accent */}
+        <div className="absolute left-8 sm:left-12 lg:left-20 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#c9a84c]/30 to-transparent hidden lg:block" />
 
-            <p className="text-white/35 text-base leading-relaxed max-w-sm mb-10 font-light">
-              Morocco's most curated real estate platform — connecting discerning clients with extraordinary homes.
-            </p>
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col justify-center px-8 sm:px-12 lg:px-20 pt-20">
+          <div className="max-w-7xl mx-auto w-full">
 
-            <div className="flex items-center gap-4">
-              <Link
-                href="/properties"
-                className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-xs tracking-[0.25em] uppercase font-semibold px-8 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
-              >
-                Explore Listings
-                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <Link
-                href="/contact"
-                className="text-white/40 text-xs tracking-[0.25em] uppercase font-medium hover:text-white/80 transition-colors duration-300 border-b border-white/10 hover:border-white/30 pb-0.5"
-              >
-                Talk to an Agent
-              </Link>
+            <div className="max-w-2xl">
+              {/* Label */}
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block w-8 h-px bg-[#c9a84c]" />
+                <span className="text-[#c9a84c]/70 text-[11px] tracking-[0.5em] uppercase font-medium">
+                  Est. 2019 · Morocco
+                </span>
+              </div>
+
+              {/* Headline */}
+              <h1 className="font-heading leading-[0.9] tracking-tight mb-8">
+                <span className="block text-white font-light" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
+                  Find Your
+                </span>
+                <span className="block text-[#c9a84c] italic font-bold" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
+                  Perfect
+                </span>
+                <span
+                  className="block font-bold"
+                  style={{
+                    fontSize: 'clamp(3.2rem,6.5vw,6rem)',
+                    WebkitTextStroke: '1.5px rgba(255,255,255,0.25)',
+                    color: 'transparent',
+                  }}
+                >
+                  Property
+                </span>
+              </h1>
+
+              {/* Subtext */}
+              <p className="text-white/40 text-base leading-relaxed max-w-xs mb-10 font-light">
+                Morocco's most curated real estate platform — extraordinary homes for discerning clients.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <Link
+                  href="/properties"
+                  className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-[11px] tracking-[0.3em] uppercase font-bold px-8 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
+                >
+                  Explore Listings
+                  <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 text-white/45 text-[11px] tracking-[0.3em] uppercase font-medium hover:text-white/80 transition-colors duration-300 border border-white/15 hover:border-white/30 px-6 py-4"
+                >
+                  Talk to an Agent
+                </Link>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom stats bar */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-white/8">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/8">
+        <div className="absolute bottom-0 left-0 right-0 border-t border-white/8 backdrop-blur-sm bg-[#0a0a0a]/40">
+          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/8">
             {[
               { n: '500+', label: 'Premium Listings' },
-              { n: '12+', label: 'Cities' },
+              { n: '12+', label: 'Cities Covered' },
               { n: '98%', label: 'Client Satisfaction' },
               { n: '5+', label: 'Years of Excellence' },
             ].map((s) => (
-              <div key={s.label} className="px-8 py-5 backdrop-blur-sm bg-white/[0.02]">
+              <div key={s.label} className="px-8 py-5">
                 <div className="font-heading text-2xl font-bold text-white">{s.n}</div>
                 <div className="text-white/25 text-[10px] tracking-[0.2em] uppercase mt-1">{s.label}</div>
               </div>

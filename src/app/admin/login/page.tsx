@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Eye, EyeOff, LogIn } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
 export default function AdminLoginPage() {
@@ -19,13 +19,10 @@ export default function AdminLoginPage() {
     setError('')
 
     const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (authError) {
-      setError('Invalid email or password. Please try again.')
+      setError('Invalid email or password.')
       setIsLoading(false)
       return
     }
@@ -35,32 +32,52 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-beige flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-10">
-          <span className="font-heading text-4xl font-bold text-brand-gold tracking-widest">
-            L33
-          </span>
-          <p className="text-sm text-brand-gray tracking-[0.3em] uppercase mt-1">
-            Real Estate — Admin
+    <div className="min-h-screen bg-[#0a0a0a] flex">
+      {/* Left: Branding panel */}
+      <div className="hidden lg:flex flex-col justify-between w-[45%] p-14 border-r border-white/5">
+        <div>
+          <span className="font-heading text-2xl font-bold text-[#c9a84c] tracking-widest">L33</span>
+          <span className="text-white/30 text-sm tracking-[0.3em] uppercase ml-3">Real Estate</span>
+        </div>
+
+        <div>
+          <p className="text-white/10 text-[10px] tracking-[0.4em] uppercase mb-6">Admin Portal</p>
+          <h1 className="font-heading text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+            Manage your
+            <br />
+            <em className="text-[#c9a84c]">listings</em>
+            <br />
+            with ease.
+          </h1>
+          <p className="text-white/25 text-sm leading-relaxed max-w-xs">
+            Add, edit, and publish properties in minutes. Keep your portfolio organized and your clients impressed.
           </p>
         </div>
 
-        {/* Card */}
-        <div className="bg-white border border-stone-200 p-8 shadow-sm">
-          <h1 className="font-heading text-2xl font-semibold text-brand-black tracking-wide mb-2">
-            Sign In
-          </h1>
-          <p className="text-sm text-brand-gray mb-8">
-            Access the L33 Real Estate admin dashboard
-          </p>
+        <p className="text-white/15 text-xs tracking-wider">
+          © {new Date().getFullYear()} L33 Real Estate
+        </p>
+      </div>
+
+      {/* Right: Login form */}
+      <div className="flex-1 flex items-center justify-center px-8 py-12">
+        <div className="w-full max-w-sm">
+          {/* Mobile logo */}
+          <div className="lg:hidden mb-12 text-center">
+            <span className="font-heading text-3xl font-bold text-[#c9a84c] tracking-widest">L33</span>
+            <p className="text-white/30 text-xs tracking-[0.4em] uppercase mt-1">Real Estate · Admin</p>
+          </div>
+
+          <div className="mb-10">
+            <h2 className="text-white text-2xl font-semibold tracking-tight mb-2">Welcome back</h2>
+            <p className="text-white/30 text-sm">Sign in to your admin account</p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-brand-black tracking-wide mb-1.5">
-                Email Address
+              <label className="block text-white/40 text-[11px] tracking-[0.25em] uppercase mb-2.5">
+                Email
               </label>
               <input
                 type="email"
@@ -68,14 +85,14 @@ export default function AdminLoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                placeholder="admin@l33realestate.ma"
-                className="w-full px-4 py-3 border border-stone-300 text-sm text-brand-black placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold transition-colors duration-200"
+                placeholder="you@l33.ma"
+                className="w-full bg-white/5 border border-white/10 text-white text-sm px-4 py-3.5 placeholder-white/20 focus:outline-none focus:border-[#c9a84c]/60 focus:bg-white/8 transition-all duration-200"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-brand-black tracking-wide mb-1.5">
+              <label className="block text-white/40 text-[11px] tracking-[0.25em] uppercase mb-2.5">
                 Password
               </label>
               <div className="relative">
@@ -86,21 +103,21 @@ export default function AdminLoginPage() {
                   required
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 pr-12 border border-stone-300 text-sm text-brand-black placeholder-gray-400 bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold transition-colors duration-200"
+                  className="w-full bg-white/5 border border-white/10 text-white text-sm px-4 py-3.5 pr-12 placeholder-white/20 focus:outline-none focus:border-[#c9a84c]/60 transition-all duration-200"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-gray hover:text-brand-black transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/60 transition-colors"
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
             </div>
 
             {/* Error */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+              <div className="border border-red-500/20 bg-red-500/10 text-red-400 px-4 py-3 text-xs tracking-wide">
                 {error}
               </div>
             )}
@@ -109,29 +126,22 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-3 bg-brand-gold hover:bg-brand-gold-dark text-white py-3.5 text-sm font-semibold tracking-widest uppercase transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              className="w-full flex items-center justify-center gap-2.5 bg-[#c9a84c] hover:bg-[#a8892e] text-white text-xs tracking-[0.25em] uppercase font-semibold py-4 transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed mt-2 group"
             >
               {isLoading ? (
-                <>
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Signing in...
-                </>
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
               ) : (
                 <>
-                  <LogIn size={16} />
                   Sign In
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </>
               )}
             </button>
           </form>
         </div>
-
-        <p className="text-center text-xs text-brand-gray mt-6">
-          &copy; {new Date().getFullYear()} L33 Real Estate. All rights reserved.
-        </p>
       </div>
     </div>
   )

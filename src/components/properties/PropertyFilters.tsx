@@ -15,9 +15,9 @@ const PROPERTY_TYPES = [
   { value: 'commercial', label: 'Commercial' },
 ]
 const SORT_OPTIONS = [
-  { value: 'created_at_desc', label: 'Newest' },
-  { value: 'price_asc', label: 'Price ↑' },
-  { value: 'price_desc', label: 'Price ↓' },
+  { value: 'created_at_desc', label: 'Newest First' },
+  { value: 'price_asc', label: 'Price: Low → High' },
+  { value: 'price_desc', label: 'Price: High → Low' },
 ]
 
 export default function PropertyFilters() {
@@ -53,12 +53,13 @@ export default function PropertyFilters() {
     currentListingType !== 'all' || currentCity || currentPropertyType ||
     currentMinPrice || currentMaxPrice || currentSort !== 'created_at_desc' || currentSearch
 
-  const selectClass = "bg-transparent border-0 border-b border-stone-200 text-[#0a0a0a] text-xs tracking-wide py-2.5 pr-6 focus:outline-none focus:border-[#c9a84c] cursor-pointer appearance-none transition-colors duration-200 hover:border-stone-400"
+  const inputClass = "w-full bg-white border border-stone-200 text-[#0a0a0a] text-xs px-3 py-2.5 placeholder-stone-400 focus:outline-none focus:border-[#c9a84c] transition-colors duration-200"
+  const selectClass = "w-full bg-white border border-stone-200 text-[#0a0a0a] text-xs px-3 py-2.5 focus:outline-none focus:border-[#c9a84c] transition-colors duration-200 cursor-pointer"
 
   return (
-    <div className="mb-12">
-      {/* Buy / Rent / All tabs */}
-      <div className="flex items-center gap-1 mb-8">
+    <div className="mb-10">
+      {/* Buy / Rent tabs */}
+      <div className="flex items-center gap-0 mb-6 border border-stone-200 w-fit">
         {[
           { value: 'all', label: 'All' },
           { value: 'buy', label: 'For Sale' },
@@ -68,10 +69,10 @@ export default function PropertyFilters() {
             key={opt.value}
             onClick={() => updateFilter('listing_type', opt.value === 'all' ? null : opt.value)}
             className={cn(
-              'px-5 py-2 text-[11px] tracking-[0.25em] uppercase font-semibold transition-all duration-200',
+              'px-6 py-2.5 text-[11px] tracking-[0.2em] uppercase font-semibold transition-all duration-200 border-r border-stone-200 last:border-r-0',
               currentListingType === opt.value
                 ? 'bg-[#0a0a0a] text-white'
-                : 'text-stone-400 hover:text-[#0a0a0a]'
+                : 'bg-white text-stone-400 hover:text-[#0a0a0a] hover:bg-stone-50'
             )}
           >
             {opt.label}
@@ -80,81 +81,76 @@ export default function PropertyFilters() {
       </div>
 
       {/* Filter row */}
-      <div className="flex flex-wrap items-end gap-x-8 gap-y-4 border-b border-stone-100 pb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 items-end">
         {/* Search */}
-        <div className="relative flex items-center gap-2 border-b border-stone-200 focus-within:border-[#c9a84c] transition-colors duration-200">
-          <Search size={13} className="text-stone-300" />
+        <div className="lg:col-span-2 relative">
+          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
           <input
             type="text"
-            placeholder="Search properties..."
+            placeholder="Search by title, city..."
             value={currentSearch}
             onChange={(e) => updateFilter('search', e.target.value || null)}
-            className="bg-transparent text-xs text-[#0a0a0a] placeholder-stone-300 tracking-wide py-2.5 w-48 focus:outline-none"
+            className={cn(inputClass, 'pl-9')}
           />
         </div>
 
         {/* City */}
-        <div className="relative">
-          <select
-            value={currentCity}
-            onChange={(e) => updateFilter('city', e.target.value || null)}
-            className={selectClass}
-          >
-            <option value="">Any City</option>
-            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
-          </select>
-        </div>
+        <select
+          value={currentCity}
+          onChange={(e) => updateFilter('city', e.target.value || null)}
+          className={selectClass}
+        >
+          <option value="">Any City</option>
+          {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
 
         {/* Type */}
-        <div className="relative">
-          <select
-            value={currentPropertyType}
-            onChange={(e) => updateFilter('property_type', e.target.value || null)}
-            className={selectClass}
-          >
-            <option value="">Any Type</option>
-            {PROPERTY_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-          </select>
+        <select
+          value={currentPropertyType}
+          onChange={(e) => updateFilter('property_type', e.target.value || null)}
+          className={selectClass}
+        >
+          <option value="">Any Type</option>
+          {PROPERTY_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+        </select>
+
+        {/* Price range */}
+        <div className="flex gap-2">
+          <input
+            type="number"
+            placeholder="Min MAD"
+            value={currentMinPrice}
+            onChange={(e) => updateFilter('min_price', e.target.value || null)}
+            className={inputClass}
+          />
+          <input
+            type="number"
+            placeholder="Max MAD"
+            value={currentMaxPrice}
+            onChange={(e) => updateFilter('max_price', e.target.value || null)}
+            className={inputClass}
+          />
         </div>
 
-        {/* Min price */}
-        <input
-          type="number"
-          placeholder="Min Price (MAD)"
-          value={currentMinPrice}
-          onChange={(e) => updateFilter('min_price', e.target.value || null)}
-          className="bg-transparent border-b border-stone-200 focus:border-[#c9a84c] text-xs text-[#0a0a0a] placeholder-stone-300 py-2.5 w-36 focus:outline-none tracking-wide transition-colors duration-200"
-        />
-
-        {/* Max price */}
-        <input
-          type="number"
-          placeholder="Max Price (MAD)"
-          value={currentMaxPrice}
-          onChange={(e) => updateFilter('max_price', e.target.value || null)}
-          className="bg-transparent border-b border-stone-200 focus:border-[#c9a84c] text-xs text-[#0a0a0a] placeholder-stone-300 py-2.5 w-36 focus:outline-none tracking-wide transition-colors duration-200"
-        />
-
-        {/* Sort */}
-        <div className="relative ml-auto">
+        {/* Sort + Clear */}
+        <div className="flex gap-2">
           <select
             value={currentSort}
             onChange={(e) => updateFilter('sort', e.target.value)}
-            className={selectClass}
+            className={cn(selectClass, 'flex-1')}
           >
             {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
+          {hasActiveFilters && (
+            <button
+              onClick={() => router.push(pathname, { scroll: false })}
+              className="flex items-center justify-center w-10 border border-stone-200 bg-white text-stone-400 hover:text-red-400 hover:border-red-200 transition-colors duration-200 flex-shrink-0"
+              title="Clear filters"
+            >
+              <X size={13} />
+            </button>
+          )}
         </div>
-
-        {/* Clear */}
-        {hasActiveFilters && (
-          <button
-            onClick={() => router.push(pathname, { scroll: false })}
-            className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase text-stone-300 hover:text-red-400 transition-colors duration-200"
-          >
-            <X size={11} /> Clear all
-          </button>
-        )}
       </div>
     </div>
   )

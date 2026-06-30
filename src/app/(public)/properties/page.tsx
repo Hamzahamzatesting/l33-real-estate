@@ -59,7 +59,6 @@ async function getProperties(searchParams: PropertiesPageProps['searchParams']):
   )
 
   query = query.order(sortField, { ascending: sortDirection === 'asc' })
-
   const { data } = await query
   return (data as Property[]) || []
 }
@@ -68,46 +67,48 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
   const properties = await getProperties(searchParams)
 
   return (
-    <div className="pt-20">
-      {/* Header */}
-      <div className="bg-[#0a0a0a] pt-16 pb-20 px-8 sm:px-12 lg:px-16">
+    <div>
+      {/* Dark header — starts at very top, padding-top offsets the fixed navbar */}
+      <div className="bg-[#0a0a0a] pt-36 pb-16 px-8 sm:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#c9a84c]/60 text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">
-            Explore
+          <p className="text-[#c9a84c]/50 text-[10px] tracking-[0.5em] uppercase mb-4 font-medium">
+            L33 Real Estate
           </p>
           <h1 className="font-heading text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
-            All
-            <br />
-            <em className="not-italic text-white/20">Properties</em>
+            All Properties
           </h1>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 py-16">
-        <Suspense fallback={<div className="h-20 mb-12" />}>
-          <PropertyFilters />
-        </Suspense>
+      {/* Filter + Grid */}
+      <div className="bg-white">
+        <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-20 py-12">
 
-        {/* Count */}
-        <p className="text-stone-400 text-xs tracking-[0.2em] uppercase mb-10">
-          <span className="text-[#0a0a0a] font-semibold">{properties.length}</span>{' '}
-          {properties.length === 1 ? 'property' : 'properties'} found
-        </p>
+          {/* Filters */}
+          <Suspense fallback={<div className="h-16 mb-10" />}>
+            <PropertyFilters />
+          </Suspense>
 
-        {/* Grid */}
-        {properties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-            {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-32 text-center">
-            <p className="font-heading text-2xl text-stone-200 mb-3">No properties found</p>
-            <p className="text-stone-400 text-sm">Try adjusting your filters.</p>
-          </div>
-        )}
+          {/* Count */}
+          <p className="text-stone-400 text-xs tracking-[0.2em] uppercase mb-10">
+            <span className="text-[#0a0a0a] font-semibold">{properties.length}</span>{' '}
+            {properties.length === 1 ? 'property' : 'properties'} found
+          </p>
+
+          {/* Grid */}
+          {properties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+              {properties.map((property) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-32 text-center border border-dashed border-stone-200">
+              <p className="font-heading text-2xl text-stone-300 mb-3">No properties found</p>
+              <p className="text-stone-400 text-sm">Try adjusting your filters above.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
