@@ -74,7 +74,7 @@ export default async function PropertiesPage({ searchParams }: PropertiesPagePro
           <p className="text-[#c9a84c]/50 text-[10px] tracking-[0.5em] uppercase mb-4 font-medium">
             L33 Real Estate
           </p>
-          <h1 className="font-heading text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-tight">
             All Properties
           </h1>
         </div>

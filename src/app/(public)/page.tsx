@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Building2, Home, Trees, Briefcase, Store, Landmark } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import PropertyCard from '@/components/properties/PropertyCard'
 import type { Property } from '@/lib/types'
@@ -57,34 +57,34 @@ export default async function HomePage() {
 
               {/* Headline */}
               <h1 className="font-heading leading-[0.9] tracking-tight mb-8">
-                <span className="block text-white font-light" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
+                <span className="block text-white font-light" style={{ fontSize: 'clamp(2rem,8vw,6rem)' }}>
                   Find Your
                 </span>
-                <span className="block text-[#c9a84c] italic font-bold" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
+                <span className="block text-[#c9a84c] italic font-bold" style={{ fontSize: 'clamp(2rem,8vw,6rem)' }}>
                   Perfect
                 </span>
-                <span className="block text-white font-bold" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
+                <span className="block text-white font-bold" style={{ fontSize: 'clamp(2rem,8vw,6rem)' }}>
                   Property
                 </span>
               </h1>
 
               {/* Subtext */}
-              <p className="text-white/40 text-base leading-relaxed max-w-xs mb-10 font-light">
+              <p className="text-white/40 text-sm sm:text-base leading-relaxed max-w-full sm:max-w-xs mb-10 font-light">
                 Morocco's most curated real estate platform — extraordinary homes for discerning clients.
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <Link
                   href="/properties"
-                  className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-[11px] tracking-[0.3em] uppercase font-bold px-8 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
+                  className="flex items-center justify-center gap-2.5 bg-[#c9a84c] text-white text-[11px] tracking-[0.3em] uppercase font-bold px-8 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
                 >
                   Explore Listings
                   <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 text-white/45 text-[11px] tracking-[0.3em] uppercase font-medium hover:text-white/80 transition-colors duration-300 border border-white/15 hover:border-white/30 px-6 py-4"
+                  className="flex items-center justify-center gap-2 text-white/45 text-[11px] tracking-[0.3em] uppercase font-medium hover:text-white/80 transition-colors duration-300 border border-white/15 hover:border-white/30 px-6 py-4"
                 >
                   Talk to an Agent
                 </Link>
@@ -105,7 +105,7 @@ export default async function HomePage() {
               <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">
                 Handpicked for You
               </p>
-              <h2 className="font-heading text-5xl md:text-6xl font-bold text-[#0a0a0a] leading-tight tracking-tight">
+              <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-[#0a0a0a] leading-tight tracking-tight">
                 Featured
                 <br />
                 <em className="not-italic text-[#0a0a0a]/30">Properties</em>
@@ -140,7 +140,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="font-heading text-4xl md:text-5xl font-light text-white leading-snug tracking-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-light text-white leading-snug tracking-tight">
                 We don't just list
                 <br />
                 properties — we
@@ -176,7 +176,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
           <div className="mb-16">
             <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">Browse by Type</p>
-            <h2 className="font-heading text-5xl font-bold text-[#0a0a0a] tracking-tight">
+            <h2 className="font-heading text-4xl md:text-5xl font-bold text-[#0a0a0a] tracking-tight">
               What are you
               <br />
               <em className="not-italic text-[#0a0a0a]/25">looking for?</em>
@@ -185,32 +185,39 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
-              { label: 'Apartments', type: 'apartment' },
-              { label: 'Villas', type: 'villa' },
-              { label: 'Houses', type: 'house' },
-              { label: 'Offices', type: 'office' },
-              { label: 'Land', type: 'land' },
-              { label: 'Commercial', type: 'commercial' },
-            ].map((cat) => (
-              <Link
-                key={cat.type}
-                href={`/properties?property_type=${cat.type}`}
-                className="group relative bg-white border border-stone-200/80 hover:border-[#c9a84c] hover:bg-[#0a0a0a] transition-all duration-500 p-8 flex flex-col justify-between min-h-[140px]"
-              >
-                <span className="text-[10px] tracking-[0.3em] uppercase text-stone-300 group-hover:text-[#c9a84c]/60 transition-colors duration-500 font-medium">
-                  L33
-                </span>
-                <div>
-                  <h3 className="font-heading text-xl font-semibold text-[#0a0a0a] group-hover:text-white transition-colors duration-500 leading-tight">
-                    {cat.label}
-                  </h3>
-                  <ArrowUpRight
-                    size={14}
-                    className="text-stone-300 group-hover:text-[#c9a84c] mt-2 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </div>
-              </Link>
-            ))}
+              { label: 'Apartments', type: 'apartment', icon: Building2, desc: 'Urban living' },
+              { label: 'Villas', type: 'villa', icon: Home, desc: 'Luxury estates' },
+              { label: 'Houses', type: 'house', icon: Landmark, desc: 'Family homes' },
+              { label: 'Offices', type: 'office', icon: Briefcase, desc: 'Prime spaces' },
+              { label: 'Land', type: 'land', icon: Trees, desc: 'Build your vision' },
+              { label: 'Commercial', type: 'commercial', icon: Store, desc: 'Business spaces' },
+            ].map((cat) => {
+              const Icon = cat.icon
+              return (
+                <Link
+                  key={cat.type}
+                  href={`/properties?property_type=${cat.type}`}
+                  className="group bg-white border border-stone-200/80 hover:border-[#c9a84c] hover:bg-[#0a0a0a] transition-all duration-400 p-6 flex flex-col gap-4 min-h-[160px]"
+                >
+                  {/* Icon */}
+                  <div className="w-10 h-10 border border-stone-200 group-hover:border-[#c9a84c]/30 flex items-center justify-center transition-colors duration-400">
+                    <Icon size={18} className="text-stone-400 group-hover:text-[#c9a84c] transition-colors duration-400" />
+                  </div>
+
+                  {/* Text */}
+                  <div className="mt-auto">
+                    <h3 className="font-heading text-base font-semibold text-[#0a0a0a] group-hover:text-white transition-colors duration-400 leading-tight mb-1">
+                      {cat.label}
+                    </h3>
+                    <p className="text-[10px] uppercase tracking-wider text-stone-400 group-hover:text-white/40 transition-colors duration-400">
+                      {cat.desc}
+                    </p>
+                  </div>
+
+                  <ArrowUpRight size={12} className="text-stone-300 group-hover:text-[#c9a84c] transition-all duration-400 self-end group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -232,7 +239,7 @@ export default async function HomePage() {
           <p className="text-[#c9a84c]/60 text-[10px] tracking-[0.5em] uppercase mb-8 font-medium">
             Get Started
           </p>
-          <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-8">
+          <h2 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight mb-8">
             Your dream home
             <br />
             <em className="text-[#c9a84c]">is one call away.</em>
@@ -240,10 +247,10 @@ export default async function HomePage() {
           <p className="text-white/25 text-base font-light leading-relaxed mb-12 max-w-md mx-auto">
             Let our agents guide you to the perfect property — on your terms, on your timeline.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-sm mx-auto sm:max-w-none">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 bg-[#c9a84c] text-white text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
+              className="flex items-center justify-center gap-2.5 bg-[#c9a84c] text-white text-xs tracking-[0.25em] uppercase font-semibold px-10 py-4 hover:bg-[#a8892e] transition-colors duration-300 group"
             >
               Contact Our Team
               <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
@@ -252,7 +259,7 @@ export default async function HomePage() {
               href="https://wa.me/212600000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/35 text-xs tracking-[0.25em] uppercase font-medium hover:text-white/70 transition-colors duration-300 border-b border-white/10 hover:border-white/25 pb-0.5"
+              className="flex items-center justify-center text-white/35 text-xs tracking-[0.25em] uppercase font-medium hover:text-white/70 transition-colors duration-300 border border-white/10 hover:border-white/25 px-6 py-4"
             >
               WhatsApp Us
             </a>

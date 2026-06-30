@@ -2,13 +2,20 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Edit, Trash2, Eye, EyeOff } from 'lucide-react'
+import { Pencil, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react'
 import { format } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
-import Badge from '@/components/ui/Badge'
 import { formatPrice, getPropertyTypeLabel, getListingTypeLabel } from '@/lib/utils'
 import type { Property } from '@/lib/types'
 import { useRouter } from 'next/navigation'
+import { cn } from '@/lib/utils'
+
+const STATUS_STYLES: Record<string, string> = {
+  published: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+  draft:     'bg-amber-50 text-amber-700 border border-amber-200',
+  sold:      'bg-rose-50 text-rose-700 border border-rose-200',
+  rented:    'bg-sky-50 text-sky-700 border border-sky-200',
+}
 
 interface PropertyTableProps {
   properties: Property[]
@@ -21,33 +28,21 @@ export default function PropertyTable({ properties: initialProperties }: Propert
   const router = useRouter()
 
   const handleDelete = async (property: Property) => {
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${property.title}"? This action cannot be undone.`
-    )
-    if (!confirmed) return
-
+    if (!window.confirm(`Delete "${property.title}"? This cannot be undone.`)) return
     setDeletingId(property.id)
     try {
-      const response = await fetch(`/api/properties/${property.id}`, {
-        method: 'DELETE',
-      })
-      if (response.ok) {
-        setProperties((prev) => prev.filter((p) => p.id !== property.id))
-      } else {
-        alert('Failed to delete property. Please try again.')
-      }
-    } catch {
-      alert('An error occurred. Please try again.')
-    } finally {
-      setDeletingId(null)
-    }
+      const res = await fetch(`/api/properties/${property.id}`, { method: 'DELETE' })
+      if (res.ok) setProperties((prev) => prev.filter((p) => p.id !== property.id))
+      else alert('Failed to delete. Please try again.')
+    } catch { alert('An error occurred.') }
+    finally { setDeletingId(null) }
   }
 
   const handleTogglePublish = async (property: Property) => {
     const newStatus = property.status === 'published' ? 'draft' : 'published'
     setTogglingId(property.id)
     try {
-      const response = await fetch(`/api/properties/${property.id}`, {
+      const res = await fetch(`/api/properties/${property.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -55,159 +50,134 @@ export default function PropertyTable({ properties: initialProperties }: Propert
           ...(newStatus === 'published' ? { published_at: new Date().toISOString() } : {}),
         }),
       })
-      if (response.ok) {
+      if (res.ok) {
         setProperties((prev) =>
-          prev.map((p) =>
-            p.id === property.id
-              ? {
-                  ...p,
-                  status: newStatus,
-                  published_at: newStatus === 'published' ? new Date().toISOString() : p.published_at,
-                }
-              : p
+          prev.map((p) => p.id === property.id
+            ? { ...p, status: newStatus, published_at: newStatus === 'published' ? new Date().toISOString() : p.published_at }
+            : p
           )
         )
         router.refresh()
-      } else {
-        alert('Failed to update property status.')
-      }
-    } catch {
-      alert('An error occurred. Please try again.')
-    } finally {
-      setTogglingId(null)
-    }
+      } else alert('Failed to update status.')
+    } catch { alert('An error occurred.') }
+    finally { setTogglingId(null) }
   }
 
   if (properties.length === 0) {
     return (
-      <div className="text-center py-16 bg-white border border-stone-200">
-        <p className="text-brand-gray text-sm">No properties found.</p>
-        <Link
-          href="/admin/properties/new"
-          className="mt-4 inline-flex items-center gap-2 text-brand-gold text-sm hover:text-brand-gold-dark transition-colors duration-200"
-        >
+      <div className="text-center py-20">
+        <p className="text-stone-400 text-sm mb-4">No properties yet.</p>
+        <Link href="/admin/properties/new" className="text-[#c9a84c] text-sm hover:underline">
           Add your first property →
         </Link>
       </div>
     )
   }
 
+  const Spinner = () => (
+    <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    </svg>
+  )
+
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full">
         <thead>
-          <tr className="bg-brand-beige border-b border-stone-200">
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest">
-              Reference
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest">
-              Title
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest hidden md:table-cell">
-              City
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest hidden lg:table-cell">
-              Type
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest hidden lg:table-cell">
-              Price
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest">
-              Status
-            </th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest hidden xl:table-cell">
-              Date
-            </th>
-            <th className="text-right px-4 py-3 text-xs font-semibold text-brand-gray uppercase tracking-widest">
-              Actions
-            </th>
+          <tr className="border-b border-stone-100">
+            <th className="text-left px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em]">Property</th>
+            <th className="text-left px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em] hidden md:table-cell">Location</th>
+            <th className="text-left px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em] hidden lg:table-cell">Price</th>
+            <th className="text-left px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em]">Status</th>
+            <th className="text-left px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em] hidden xl:table-cell">Added</th>
+            <th className="text-right px-5 py-3 text-[10px] font-semibold text-stone-400 uppercase tracking-[0.2em]">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-stone-100">
-          {properties.map((property, index) => (
-            <tr
-              key={property.id}
-              className={`hover:bg-stone-50 transition-colors duration-150 ${
-                index % 2 === 0 ? 'bg-white' : 'bg-stone-50/30'
-              }`}
-            >
-              <td className="px-4 py-4">
-                <span className="font-mono text-xs text-brand-gray font-medium">
-                  {property.reference_id}
-                </span>
-              </td>
-              <td className="px-4 py-4">
-                <div className="max-w-[200px]">
-                  <p className="font-medium text-brand-black truncate">{property.title}</p>
-                  <p className="text-xs text-brand-gray mt-0.5">
-                    {getListingTypeLabel(property.listing_type)}
-                  </p>
+        <tbody className="divide-y divide-stone-50">
+          {properties.map((property) => (
+            <tr key={property.id} className="hover:bg-stone-50/60 transition-colors duration-150 group">
+              {/* Property */}
+              <td className="px-5 py-4">
+                <div>
+                  <p className="text-sm font-semibold text-[#0a0a0a] truncate max-w-[200px]">{property.title}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[10px] text-stone-400 font-mono">{property.reference_id}</span>
+                    <span className="text-stone-200">·</span>
+                    <span className="text-[10px] text-stone-400">{getListingTypeLabel(property.listing_type)}</span>
+                    <span className="text-stone-200">·</span>
+                    <span className="text-[10px] text-stone-400">{getPropertyTypeLabel(property.property_type)}</span>
+                  </div>
                 </div>
               </td>
-              <td className="px-4 py-4 hidden md:table-cell text-brand-gray">
-                {property.city}
+
+              {/* Location */}
+              <td className="px-5 py-4 hidden md:table-cell">
+                <p className="text-sm text-[#0a0a0a]">{property.city}</p>
+                <p className="text-xs text-stone-400 mt-0.5">{property.neighborhood}</p>
               </td>
-              <td className="px-4 py-4 hidden lg:table-cell">
-                <span className="text-xs text-brand-gray capitalize">
-                  {getPropertyTypeLabel(property.property_type)}
+
+              {/* Price */}
+              <td className="px-5 py-4 hidden lg:table-cell">
+                <span className="text-sm font-semibold text-[#0a0a0a]">{formatPrice(property.price)}</span>
+              </td>
+
+              {/* Status */}
+              <td className="px-5 py-4">
+                <span className={cn('text-[10px] font-semibold tracking-[0.15em] uppercase px-2.5 py-1', STATUS_STYLES[property.status] || STATUS_STYLES.draft)}>
+                  {property.status}
                 </span>
               </td>
-              <td className="px-4 py-4 hidden lg:table-cell">
-                <span className="font-medium text-brand-black">
-                  {formatPrice(property.price)}
+
+              {/* Date */}
+              <td className="px-5 py-4 hidden xl:table-cell">
+                <span className="text-xs text-stone-400">
+                  {format(new Date(property.created_at), 'MMM d, yyyy')}
                 </span>
               </td>
-              <td className="px-4 py-4">
-                <Badge status={property.status} />
-              </td>
-              <td className="px-4 py-4 hidden xl:table-cell text-xs text-brand-gray">
-                {format(new Date(property.created_at), 'MMM d, yyyy')}
-              </td>
-              <td className="px-4 py-4">
+
+              {/* Actions */}
+              <td className="px-5 py-4">
                 <div className="flex items-center justify-end gap-1">
-                  {/* Toggle Publish */}
+                  {/* View on site */}
+                  {property.status === 'published' && (
+                    <Link
+                      href={`/properties/${property.slug || property.id}`}
+                      target="_blank"
+                      className="p-2 text-stone-300 hover:text-[#c9a84c] transition-colors duration-150"
+                      title="View on site"
+                    >
+                      <ExternalLink size={14} />
+                    </Link>
+                  )}
+
+                  {/* Publish toggle */}
                   <button
                     onClick={() => handleTogglePublish(property)}
                     disabled={togglingId === property.id || ['sold', 'rented'].includes(property.status)}
-                    className="p-2 text-brand-gray hover:text-brand-gold transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-2 text-stone-300 hover:text-[#c9a84c] transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed"
                     title={property.status === 'published' ? 'Unpublish' : 'Publish'}
                   >
-                    {togglingId === property.id ? (
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                    ) : property.status === 'published' ? (
-                      <EyeOff size={16} />
-                    ) : (
-                      <Eye size={16} />
-                    )}
+                    {togglingId === property.id ? <Spinner /> : property.status === 'published' ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
 
                   {/* Edit */}
                   <Link
                     href={`/admin/properties/${property.id}/edit`}
-                    className="p-2 text-brand-gray hover:text-brand-black transition-colors duration-200"
+                    className="p-2 text-stone-300 hover:text-[#0a0a0a] transition-colors duration-150"
                     title="Edit"
                   >
-                    <Edit size={16} />
+                    <Pencil size={14} />
                   </Link>
 
                   {/* Delete */}
                   <button
                     onClick={() => handleDelete(property)}
                     disabled={deletingId === property.id}
-                    className="p-2 text-brand-gray hover:text-red-500 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-2 text-stone-300 hover:text-red-400 transition-colors duration-150 disabled:opacity-30"
                     title="Delete"
                   >
-                    {deletingId === property.id ? (
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                    ) : (
-                      <Trash2 size={16} />
-                    )}
+                    {deletingId === property.id ? <Spinner /> : <Trash2 size={14} />}
                   </button>
                 </div>
               </td>
