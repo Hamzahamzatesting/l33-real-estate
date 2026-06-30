@@ -96,11 +96,11 @@ export default async function HomePage() {
       </section>
 
       {/* ─── FEATURED PROPERTIES ─── */}
-      <section className="py-28 bg-white">
+      <section className="py-16 sm:py-24 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
 
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16">
             <div>
               <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">
                 Handpicked for You
@@ -136,9 +136,9 @@ export default async function HomePage() {
       </section>
 
       {/* ─── DIVIDER STATEMENT ─── */}
-      <section className="bg-[#0a0a0a] py-24 overflow-hidden">
+      <section className="bg-[#0a0a0a] py-16 sm:py-20 lg:py-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-light text-white leading-snug tracking-tight">
                 We don't just list
@@ -172,7 +172,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── PROPERTY CATEGORIES ─── */}
-      <section className="py-28 bg-[#f5f2ec]">
+      <section className="py-16 sm:py-24 lg:py-28 bg-[#f5f2ec]">
         <div className="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
           <div className="mb-16">
             <p className="text-[#c9a84c] text-[10px] tracking-[0.45em] uppercase mb-5 font-medium">Browse by Type</p>
@@ -223,7 +223,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="relative py-36 bg-[#0a0a0a] overflow-hidden">
+      <section className="relative py-20 sm:py-28 lg:py-36 bg-[#0a0a0a] overflow-hidden">
         {/* Subtle grain texture overlay */}
         <div
           className="absolute inset-0 opacity-[0.03]"

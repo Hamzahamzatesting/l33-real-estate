@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -182,13 +182,20 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
     }
   }
 
+  const Section = ({ n, title, children }: { n: string; title: string; children: React.ReactNode }) => (
+    <div className="bg-white border border-stone-200">
+      <div className="flex items-center gap-4 px-6 py-4 border-b border-stone-100">
+        <span className="font-heading text-xs font-bold text-[#c9a84c] tracking-[0.3em] w-6">{n}</span>
+        <h2 className="text-sm font-semibold text-[#0a0a0a] tracking-wide">{title}</h2>
+      </div>
+      <div className="p-6">{children}</div>
+    </div>
+  )
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-4xl">
       {/* Section 1: Basic Information */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Basic Information
-        </h2>
+      <Section n="01" title="Basic Information">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
             <Input
@@ -239,13 +246,10 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             )}
           />
         </div>
-      </div>
+      </Section>
 
       {/* Section 2: Pricing & Location */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Pricing & Location
-        </h2>
+      <Section n="02" title="Pricing & Location">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             label="Price (MAD) *"
@@ -280,68 +284,29 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             {...register('address')}
           />
         </div>
-      </div>
+      </Section>
 
       {/* Section 3: Property Details */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Property Details
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <Input
-            label="Surface Area (m²) *"
-            type="number"
-            placeholder="0"
-            error={errors.surface_area?.message}
-            {...register('surface_area')}
-          />
-          <Input
-            label="Bedrooms"
-            type="number"
-            min={0}
-            placeholder="0"
-            error={errors.bedrooms?.message}
-            {...register('bedrooms')}
-          />
-          <Input
-            label="Bathrooms"
-            type="number"
-            min={0}
-            placeholder="0"
-            error={errors.bathrooms?.message}
-            {...register('bathrooms')}
-          />
-          <Input
-            label="Parking Spots"
-            type="number"
-            min={0}
-            placeholder="0"
-            error={errors.parking?.message}
-            {...register('parking')}
-          />
+      <Section n="03" title="Property Details">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Input label="Surface (m²) *" type="number" placeholder="0" error={errors.surface_area?.message} {...register('surface_area')} />
+          <Input label="Bedrooms" type="number" min={0} placeholder="0" error={errors.bedrooms?.message} {...register('bedrooms')} />
+          <Input label="Bathrooms" type="number" min={0} placeholder="0" error={errors.bathrooms?.message} {...register('bathrooms')} />
+          <Input label="Parking" type="number" min={0} placeholder="0" error={errors.parking?.message} {...register('parking')} />
         </div>
-      </div>
+      </Section>
 
       {/* Section 4: Description & Amenities */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Description & Amenities
-        </h2>
-        <div className="space-y-6">
+      <Section n="04" title="Description & Amenities">
+        <div className="space-y-5">
           <Textarea
             label="Description"
             placeholder="Describe the property in detail — location highlights, finishes, nearby amenities..."
-            rows={6}
+            rows={5}
             {...register('description')}
           />
-
-          {/* Amenities */}
           <div>
-            <label className="block text-sm font-medium text-brand-black tracking-wide mb-2">
-              Amenities & Features
-            </label>
-
-            {/* Quick add buttons */}
+            <p className="text-[11px] font-semibold text-stone-500 tracking-[0.15em] uppercase mb-2.5">Amenities & Features</p>
             <div className="flex flex-wrap gap-2 mb-3">
               {QUICK_AMENITIES.map((amenity) => (
                 <button
@@ -349,52 +314,32 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
                   type="button"
                   onClick={() => addAmenity(amenity)}
                   disabled={amenities.includes(amenity)}
-                  className="px-3 py-1.5 text-xs border border-stone-300 text-brand-gray hover:border-brand-gold hover:text-brand-gold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="px-3 py-1.5 text-[11px] font-medium border border-stone-200 text-stone-500 hover:border-[#c9a84c] hover:text-[#c9a84c] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   + {amenity}
                 </button>
               ))}
             </div>
-
-            {/* Manual input */}
             <div className="flex gap-2">
               <input
                 type="text"
                 value={amenityInput}
                 onChange={(e) => setAmenityInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    addAmenity(amenityInput)
-                  }
-                }}
-                placeholder="Type a custom amenity and press Enter"
-                className="flex-1 px-4 py-2.5 border border-stone-300 text-sm text-brand-black placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-brand-gold focus:border-brand-gold"
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addAmenity(amenityInput) } }}
+                placeholder="Custom amenity, press Enter"
+                className="flex-1 px-4 py-2.5 border border-stone-200 text-sm text-[#0a0a0a] placeholder-stone-300 focus:outline-none focus:border-[#c9a84c] transition-colors"
               />
-              <button
-                type="button"
-                onClick={() => addAmenity(amenityInput)}
-                className="px-4 py-2.5 bg-brand-gold text-white hover:bg-brand-gold-dark transition-colors duration-200"
-              >
-                <Plus size={16} />
+              <button type="button" onClick={() => addAmenity(amenityInput)} className="px-4 bg-[#c9a84c] text-white hover:bg-[#a8892e] transition-colors">
+                <Plus size={15} />
               </button>
             </div>
-
-            {/* Amenity tags */}
             {amenities.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-3">
                 {amenities.map((amenity) => (
-                  <span
-                    key={amenity}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-beige border border-stone-200 text-sm text-brand-black"
-                  >
+                  <span key={amenity} className="flex items-center gap-1.5 px-3 py-1.5 bg-stone-50 border border-stone-200 text-xs text-[#0a0a0a]">
                     {amenity}
-                    <button
-                      type="button"
-                      onClick={() => removeAmenity(amenity)}
-                      className="text-brand-gray hover:text-red-500 transition-colors"
-                    >
-                      <X size={12} />
+                    <button type="button" onClick={() => removeAmenity(amenity)} className="text-stone-400 hover:text-red-400 transition-colors">
+                      <X size={11} />
                     </button>
                   </span>
                 ))}
@@ -402,62 +347,27 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             )}
           </div>
         </div>
-      </div>
+      </Section>
 
       {/* Section 5: Media */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Media
-        </h2>
-        <div className="space-y-6">
+      <Section n="05" title="Photos & Media">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-brand-black tracking-wide mb-3">
-              Property Images
-            </label>
-            <ImageUpload
-              propertyId={property?.id}
-              initialImages={images}
-              onChange={setImages}
-            />
+            <p className="text-[11px] font-semibold text-stone-500 tracking-[0.15em] uppercase mb-3">Property Images</p>
+            <ImageUpload propertyId={property?.id} initialImages={images} onChange={setImages} />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              label="Video URL"
-              type="url"
-              placeholder="https://youtube.com/embed/..."
-              error={errors.video_url?.message}
-              helperText="YouTube embed or direct video URL"
-              {...register('video_url')}
-            />
-            <Input
-              label="Map Embed URL"
-              type="url"
-              placeholder="https://maps.google.com/..."
-              error={errors.map_url?.message}
-              helperText="Google Maps embed URL"
-              {...register('map_url')}
-            />
-            <Input
-              label="Agent Name"
-              placeholder="Agent full name"
-              {...register('agent_name')}
-            />
-            <Input
-              label="Agent Phone"
-              placeholder="+212 600 000 000"
-              {...register('agent_phone')}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-stone-100">
+            <Input label="Video URL" type="url" placeholder="https://youtube.com/embed/..." error={errors.video_url?.message} helperText="YouTube embed or direct video URL" {...register('video_url')} />
+            <Input label="Map Embed URL" type="url" placeholder="https://maps.google.com/..." error={errors.map_url?.message} helperText="Google Maps embed URL" {...register('map_url')} />
+            <Input label="Agent Name" placeholder="Agent full name" {...register('agent_name')} />
+            <Input label="Agent Phone" placeholder="+212 600 000 000" {...register('agent_phone')} />
           </div>
         </div>
-      </div>
+      </Section>
 
       {/* Section 6: Publishing */}
-      <div className="bg-white border border-stone-200 p-6">
-        <h2 className="font-heading text-lg font-semibold text-brand-black mb-6 pb-3 border-b border-stone-100">
-          Publishing
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+      <Section n="06" title="Publishing">
+        <div className="max-w-xs">
           <Controller
             name="status"
             control={control}
@@ -467,7 +377,7 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
                 error={errors.status?.message}
                 options={[
                   { value: 'draft', label: 'Draft — Not visible to public' },
-                  { value: 'published', label: 'Published — Visible to public' },
+                  { value: 'published', label: 'Published — Live on website' },
                   { value: 'sold', label: 'Sold' },
                   { value: 'rented', label: 'Rented' },
                 ]}
@@ -476,29 +386,25 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             )}
           />
         </div>
-      </div>
+      </Section>
 
       {/* Error / Success */}
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 text-xs tracking-wide">
           {error}
         </div>
       )}
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm">
-          Property saved successfully!
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 text-xs tracking-wide">
+          Property saved successfully.
         </div>
       )}
 
       {/* Submit */}
-      <div className="flex items-center justify-between">
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => router.push('/admin/properties')}
-        >
+      <div className="flex items-center justify-between pt-2">
+        <button type="button" onClick={() => router.push('/admin/properties')} className="text-stone-400 text-sm hover:text-[#0a0a0a] transition-colors">
           Cancel
-        </Button>
+        </button>
         <Button type="submit" variant="primary" isLoading={isSubmitting} size="lg">
           {mode === 'create' ? 'Create Property' : 'Save Changes'}
         </Button>
