@@ -5,7 +5,6 @@ import { MessageCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import PropertyGallery from '@/components/properties/PropertyGallery'
 import ContactCTA from '@/components/properties/ContactCTA'
-import Badge from '@/components/ui/Badge'
 import { formatPrice, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
 import { format } from 'date-fns'
 import type { Property } from '@/lib/types'
@@ -98,7 +97,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                 <span className="px-3 py-1 text-xs font-medium tracking-wider uppercase bg-stone-100 text-brand-black">
                   {getPropertyTypeLabel(property.property_type)}
                 </span>
-                <Badge status={property.status} />
               </div>
 
               <h1 className="font-heading text-3xl md:text-4xl font-bold text-brand-black tracking-wide mb-4">
