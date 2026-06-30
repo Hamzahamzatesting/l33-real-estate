@@ -63,14 +63,7 @@ export default async function HomePage() {
                 <span className="block text-[#c9a84c] italic font-bold" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
                   Perfect
                 </span>
-                <span
-                  className="block font-bold"
-                  style={{
-                    fontSize: 'clamp(3.2rem,6.5vw,6rem)',
-                    WebkitTextStroke: '1.5px rgba(255,255,255,0.25)',
-                    color: 'transparent',
-                  }}
-                >
+                <span className="block text-white font-bold" style={{ fontSize: 'clamp(3.2rem,6.5vw,6rem)' }}>
                   Property
                 </span>
               </h1>
@@ -100,22 +93,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Bottom stats bar */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-white/8 backdrop-blur-sm bg-[#0a0a0a]/40">
-          <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/8">
-            {[
-              { n: '500+', label: 'Premium Listings' },
-              { n: '12+', label: 'Cities Covered' },
-              { n: '98%', label: 'Client Satisfaction' },
-              { n: '5+', label: 'Years of Excellence' },
-            ].map((s) => (
-              <div key={s.label} className="px-8 py-5">
-                <div className="font-heading text-2xl font-bold text-white">{s.n}</div>
-                <div className="text-white/25 text-[10px] tracking-[0.2em] uppercase mt-1">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ─── FEATURED PROPERTIES ─── */}
