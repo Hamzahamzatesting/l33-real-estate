@@ -16,7 +16,7 @@ export default function Logo({ size = 'md', className }: LogoProps) {
   return (
     <span
       className={cn('relative inline-block w-auto shrink-0', heightMap[size], className)}
-      style={{ aspectRatio: '827 / 644' }}
+      style={{ aspectRatio: '786 / 570' }}
     >
       <Image src="/logo.png" alt="L33 Real Estate" fill className="object-contain" priority />
     </span>
