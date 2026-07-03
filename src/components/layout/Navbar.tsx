@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Logo from './Logo'
 
 const navLinks = [
   { href: '/properties', label: 'Properties' },
@@ -43,15 +44,8 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex items-center">
-              <span className="font-heading text-2xl font-bold text-brand-gold tracking-widest group-hover:text-brand-gold-dark transition-colors duration-200">
-                L33
-              </span>
-              <span className="ml-2 text-sm text-white tracking-[0.3em] uppercase font-light">
-                Real Estate
-              </span>
-            </div>
+          <Link href="/" className="flex items-center group">
+            <Logo size="md" className="transition-colors duration-200 group-hover:[&_.l33-glyph]:fill-brand-gold-dark group-hover:[&_.l33-roof]:text-brand-gold-dark" />
           </Link>
 
           {/* Desktop Navigation */}

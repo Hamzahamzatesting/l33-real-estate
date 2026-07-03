@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import Logo from '@/components/layout/Logo'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -35,10 +36,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#0a0a0a] flex">
       {/* Left: Branding panel */}
       <div className="hidden lg:flex flex-col justify-between w-[45%] p-14 border-r border-white/5">
-        <div>
-          <span className="font-heading text-2xl font-bold text-[#c9a84c] tracking-widest">L33</span>
-          <span className="text-white/30 text-sm tracking-[0.3em] uppercase ml-3">Real Estate</span>
-        </div>
+        <Logo size="md" />
 
         <div>
           <p className="text-white/10 text-[10px] tracking-[0.4em] uppercase mb-6">Admin Portal</p>
@@ -64,8 +62,8 @@ export default function AdminLoginPage() {
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
           <div className="lg:hidden mb-12 text-center">
-            <span className="font-heading text-3xl font-bold text-[#c9a84c] tracking-widest">L33</span>
-            <p className="text-white/30 text-xs tracking-[0.4em] uppercase mt-1">Real Estate · Admin</p>
+            <Logo size="lg" className="mx-auto" />
+            <p className="text-white/30 text-xs tracking-[0.4em] uppercase mt-1">Admin</p>
           </div>
 
           <div className="mb-10">

@@ -6,6 +6,7 @@ import { LayoutDashboard, Building2, LogOut, Menu, X, ExternalLink } from 'lucid
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
+import Logo from '@/components/layout/Logo'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -32,11 +33,8 @@ export default function AdminSidebar() {
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/5">
         <Link href="/admin" className="flex items-center gap-2.5">
-          <span className="font-heading text-xl font-bold text-[#c9a84c] tracking-widest">L33</span>
-          <div>
-            <p className="text-white/50 text-[10px] tracking-[0.3em] uppercase leading-none">Real Estate</p>
-            <p className="text-white/20 text-[9px] tracking-[0.2em] uppercase leading-none mt-0.5">Admin</p>
-          </div>
+          <Logo size="sm" />
+          <p className="text-white/20 text-[9px] tracking-[0.2em] uppercase leading-none">Admin</p>
         </Link>
       </div>
 

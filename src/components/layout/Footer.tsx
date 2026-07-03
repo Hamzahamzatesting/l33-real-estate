@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react'
+import Logo from './Logo'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -10,13 +11,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo & Description */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 group mb-6">
-              <span className="font-heading text-2xl font-bold text-brand-gold tracking-widest">
-                L33
-              </span>
-              <span className="ml-2 text-sm text-white tracking-[0.3em] uppercase font-light">
-                Real Estate
-              </span>
+            <Link href="/" className="inline-flex items-center group mb-6">
+              <Logo size="md" />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-sm">
               L33 Real Estate offers premium properties curated for discerning clients. We bring

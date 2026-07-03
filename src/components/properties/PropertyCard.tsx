@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Bed, Bath, Maximize2, MapPin, ArrowRight } from 'lucide-react'
 import { cn, formatPrice, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
 import type { Property } from '@/lib/types'
+import Watermark from '@/components/ui/Watermark'
 
 interface PropertyCardProps {
   property: Property
@@ -34,6 +35,8 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
             <span className="text-stone-300 text-[10px] tracking-widest uppercase">No Image</span>
           </div>
         )}
+
+        {property.cover_image_url && <Watermark />}
 
         {/* Listing type badge */}
         <div className="absolute top-3 left-3">
