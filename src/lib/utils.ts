@@ -10,6 +10,21 @@ export function formatPrice(price: number, currency: string = 'MAD'): string {
   return `${price.toLocaleString('fr-MA')} ${currency}`
 }
 
+// Approximate MAD -> USD rate, used for the admin's informational USD estimate.
+export const MAD_TO_USD_RATE = 0.1
+
+export function convertMadToUsd(priceInMad: number): number {
+  return priceInMad * MAD_TO_USD_RATE
+}
+
+export function formatPriceUSD(priceInMad: number): string {
+  return convertMadToUsd(priceInMad).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  })
+}
+
 export function formatArea(area: number): string {
   return `${area.toLocaleString('fr-MA')} m²`
 }

@@ -11,7 +11,7 @@ import Select from '@/components/ui/Select'
 import Textarea from '@/components/ui/Textarea'
 import Button from '@/components/ui/Button'
 import ImageUpload, { type UploadedImage } from '@/components/admin/ImageUpload'
-import { slugify, generateReferenceId } from '@/lib/utils'
+import { slugify, generateReferenceId, formatPriceUSD } from '@/lib/utils'
 import type { Property } from '@/lib/types'
 
 const propertySchema = z.object({
@@ -256,6 +256,7 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             type="number"
             placeholder="0"
             error={errors.price?.message}
+            helperText={watch('price') ? `≈ ${formatPriceUSD(Number(watch('price')))} USD` : undefined}
             {...register('price')}
           />
           <Controller
