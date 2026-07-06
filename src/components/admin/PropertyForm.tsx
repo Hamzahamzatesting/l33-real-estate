@@ -256,7 +256,7 @@ export default function PropertyForm({ property, mode }: PropertyFormProps) {
             type="number"
             placeholder="0"
             error={errors.price?.message}
-            helperText={watch('price') ? `≈ ${formatPriceUSD(Number(watch('price')))} USD` : undefined}
+            helperText={watch('price') ? `Shown to visitors as ${formatPriceUSD(Number(watch('price')))}` : undefined}
             {...register('price')}
           />
           <Controller

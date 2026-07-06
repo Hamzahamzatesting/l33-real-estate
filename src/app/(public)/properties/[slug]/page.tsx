@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import PropertyGallery from '@/components/properties/PropertyGallery'
 import ContactCTA from '@/components/properties/ContactCTA'
-import { formatPrice, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
+import { formatPriceUSD, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
 import { format } from 'date-fns'
 import type { Property } from '@/lib/types'
 
@@ -114,7 +114,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               {/* Price */}
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="font-heading text-4xl font-bold text-brand-gold">
-                  {formatPrice(property.price)}
+                  {formatPriceUSD(property.price)}
                 </span>
                 {property.listing_type === 'rent' && (
                   <span className="text-brand-gray text-sm">/month</span>

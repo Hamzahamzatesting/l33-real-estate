@@ -6,11 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatPrice(price: number, currency: string = 'MAD'): string {
-  return `${price.toLocaleString('fr-MA')} ${currency}`
-}
-
-// Approximate MAD -> USD rate, used for the admin's informational USD estimate.
+// Approximate MAD -> USD rate. Properties are stored in MAD; this converts for display.
 export const MAD_TO_USD_RATE = 0.1
 
 export function convertMadToUsd(priceInMad: number): number {

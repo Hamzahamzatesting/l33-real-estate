@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Bed, Bath, Maximize2, MapPin, ArrowRight } from 'lucide-react'
-import { cn, formatPrice, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
+import { cn, formatPriceUSD, formatArea, getListingTypeLabel, getPropertyTypeLabel } from '@/lib/utils'
 import type { Property } from '@/lib/types'
 import Watermark from '@/components/ui/Watermark'
 
@@ -56,7 +56,7 @@ export default function PropertyCard({ property, className }: PropertyCardProps)
         <div className="flex items-start justify-between mb-4">
           <div>
             <p className="font-heading text-2xl font-bold text-[#0a0a0a] leading-none">
-              {formatPrice(property.price)}
+              {formatPriceUSD(property.price)}
             </p>
             {property.listing_type === 'rent' && (
               <p className="text-stone-400 text-xs mt-1">/month</p>

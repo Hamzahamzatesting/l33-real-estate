@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Pencil, Trash2, Eye, EyeOff, ExternalLink } from 'lucide-react'
 import { format } from 'date-fns'
 import { createClient } from '@/lib/supabase/client'
-import { formatPrice, formatPriceUSD, getPropertyTypeLabel, getListingTypeLabel } from '@/lib/utils'
+import { formatPriceUSD, getPropertyTypeLabel, getListingTypeLabel } from '@/lib/utils'
 import type { Property } from '@/lib/types'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -119,8 +119,7 @@ export default function PropertyTable({ properties: initialProperties }: Propert
 
               {/* Price */}
               <td className="px-5 py-4 hidden lg:table-cell">
-                <span className="text-sm font-semibold text-[#0a0a0a]">{formatPrice(property.price)}</span>
-                <p className="text-xs text-stone-400 mt-0.5">{formatPriceUSD(property.price)}</p>
+                <span className="text-sm font-semibold text-[#0a0a0a]">{formatPriceUSD(property.price)}</span>
               </td>
 
               {/* Status */}
