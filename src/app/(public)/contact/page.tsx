@@ -8,26 +8,26 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Phone',
-    value: '+212 600 000 000',
-    href: 'tel:+212600000000',
+    value: '+971 58 585 4164',
+    href: 'tel:+971585854164',
   },
   {
     icon: Mail,
     label: 'Email',
-    value: 'contact@l33realestate.ma',
-    href: 'mailto:contact@l33realestate.ma',
+    value: 'm.elidrysy@l33group.com',
+    href: 'mailto:m.elidrysy@l33group.com',
   },
   {
     icon: MessageCircle,
     label: 'WhatsApp',
-    value: '+212 600 000 000',
-    href: 'https://wa.me/212600000000',
+    value: '+971 58 585 4164',
+    href: 'https://wa.me/971585854164',
     external: true,
   },
   {
     icon: MapPin,
     label: 'Address',
-    value: 'Casablanca, Morocco',
+    value: 'Bureau N° 6, Avenue El Walaa N° 1/178, Dakhla',
     href: null,
   },
 ]
@@ -144,13 +144,13 @@ export default function ContactPage() {
               </div>
 
               <a
-                href="https://wa.me/212600000000?text=Hello%2C%20I%27d%20like%20to%20inquire%20about%20your%20properties."
+                href="https://wa.me/971585854164?text=Hello%2C%20I%27d%20like%20to%20inquire%20about%20your%20properties."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-4 text-sm font-semibold tracking-widest uppercase hover:bg-[#1ebe57] transition-all duration-300"
               >
                 <MessageCircle size={18} />
-                Chat on WhatsApp
+                Contact via WhatsApp
               </a>
             </div>
 
@@ -299,7 +299,8 @@ export default function ContactPage() {
       <section className="bg-stone-200 h-64 flex items-center justify-center">
         <div className="text-center text-stone-500">
           <MapPin size={32} className="mx-auto mb-2 text-stone-400" />
-          <p className="text-sm uppercase tracking-widest">Casablanca, Morocco</p>
+          <p className="text-sm uppercase tracking-widest">Dakhla, Morocco</p>
+          <p className="text-xs text-stone-400 mt-1">Bureau N° 6, Avenue El Walaa N° 1/178</p>
         </div>
       </section>
     </div>
