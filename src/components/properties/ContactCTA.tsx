@@ -1,4 +1,4 @@
-import { Phone, MessageCircle, Mail } from 'lucide-react'
+import { Phone, MessageCircle } from 'lucide-react'
 
 interface ContactCTAProps {
   agentName?: string
@@ -7,17 +7,23 @@ interface ContactCTAProps {
   referenceId: string
 }
 
+const WHATSAPP_NUMBER = '971585854164' // +971585854164
+
 export default function ContactCTA({
   agentName,
   agentPhone,
   propertyTitle,
   referenceId,
 }: ContactCTAProps) {
-  const phone = agentPhone || '+212600000000'
-  const cleanPhone = phone.replace(/\s+/g, '').replace('+', '')
   const whatsappMessage = encodeURIComponent(
     `Hello, I'm interested in the property: ${propertyTitle} (Ref: ${referenceId})`
   )
+
+  // WhatsApp call link — opens a WhatsApp voice call directly
+  const whatsappCallLink = `https://wa.me/${WHATSAPP_NUMBER}?call`
+
+  // WhatsApp text/chat link — opens the chat with a pre-filled message
+  const whatsappTextLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`
 
   return (
     <div className="bg-white border border-stone-200 p-6 sticky top-24">
@@ -33,31 +39,32 @@ export default function ContactCTA({
         )}
       </div>
 
-      <div className="flex flex-col gap-3">
-        <a
-          href={`tel:${phone}`}
-          className="flex items-center justify-center gap-3 w-full bg-brand-black text-white py-3.5 text-sm font-semibold tracking-widest uppercase hover:bg-gray-800 transition-all duration-300"
-        >
-          <Phone size={16} />
-          Call Agent
-        </a>
+      {/* WhatsApp section label */}
+      <p className="text-[10px] text-brand-gray uppercase tracking-widest mb-3 text-center">
+        Contact via WhatsApp
+      </p>
 
+      <div className="flex gap-3">
+        {/* WhatsApp Call */}
         <a
-          href={`https://wa.me/${cleanPhone}?text=${whatsappMessage}`}
+          href={whatsappCallLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-3.5 text-sm font-semibold tracking-widest uppercase hover:bg-[#1ebe57] transition-all duration-300"
+          className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] text-white py-3.5 text-sm font-semibold tracking-widest uppercase hover:bg-[#1ebe57] transition-all duration-300"
         >
-          <MessageCircle size={16} />
-          WhatsApp
+          <Phone size={15} />
+          Call
         </a>
 
+        {/* WhatsApp Text */}
         <a
-          href={`mailto:contact@l33realestate.ma?subject=Inquiry: ${encodeURIComponent(propertyTitle)}&body=${encodeURIComponent(`Hello,\n\nI am interested in the property: ${propertyTitle} (Ref: ${referenceId}).\n\nPlease contact me.\n\nThank you.`)}`}
-          className="flex items-center justify-center gap-3 w-full border border-brand-gold text-brand-gold py-3.5 text-sm font-semibold tracking-widest uppercase hover:bg-brand-gold hover:text-white transition-all duration-300"
+          href={whatsappTextLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 border-2 border-[#25D366] text-[#25D366] py-3.5 text-sm font-semibold tracking-widest uppercase hover:bg-[#25D366] hover:text-white transition-all duration-300"
         >
-          <Mail size={16} />
-          Email Inquiry
+          <MessageCircle size={15} />
+          Text
         </a>
       </div>
 
